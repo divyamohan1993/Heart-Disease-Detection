@@ -20,7 +20,7 @@ def load_user_credentials():
 # Sidebar for navigation
 with st.sidebar:
     selected = option_menu('Heart Disease Detection System',
-                           ['Login', 'Signup', 'Forgot Password', 'Heart Disease Prediction'],
+                           ['Login', 'Signup', 'Forgot Password', 'Heart Disease Detection'],
                            menu_icon='hospital-fill',
                            icons=['key', 'person-add', 'key', 'heart'],
                            default_index=0)
@@ -40,12 +40,12 @@ elif selected == "Forgot Password":
     import forgot_password
     forgot_password.forgot_password_page()
 
-# Implement Heart Disease Prediction Page
-elif selected == "Heart Disease Prediction":
+# Implement Heart Disease Detection Page
+elif selected == "Heart Disease Detection":
     # If the user is logged in, allow prediction
     if 'logged_in' in st.session_state and st.session_state.logged_in:
         # page title
-        st.title('Heart Disease Prediction using DL')
+        st.title('Heart Disease Detection using DL')
 
         col1, col2, col3 = st.columns(3)
 
@@ -104,4 +104,4 @@ elif selected == "Heart Disease Prediction":
         st.success(heart_diagnosis)
 
     else:
-        st.warning("Please log in to access the Heart Disease Prediction.")
+        st.warning("Please log in to access the Heart Disease Detection.")
