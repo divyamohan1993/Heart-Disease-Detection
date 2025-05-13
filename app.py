@@ -45,7 +45,7 @@ elif selected == "Heart Disease Prediction":
     # If the user is logged in, allow prediction
     if 'logged_in' in st.session_state and st.session_state.logged_in:
         # page title
-        st.title('Heart Disease Detection using DL')
+        st.title('Heart Disease Prediction using DL')
 
         col1, col2, col3 = st.columns(3)
 
