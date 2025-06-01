@@ -38,8 +38,11 @@ def login_page():
     st.markdown('<div class="login-box">', unsafe_allow_html=True)
 
     st.title("🩺 Doctor Login")
-    username = st.text_input("👨‍⚕️ Username")
-    password = st.text_input("🔒 Password", type="password")
+    # username = st.text_input("👨‍⚕️ Username")
+    # password = st.text_input("🔒 Password", type="password")
+    username = st.text_input("👨‍⚕️ Username", key="login_username")
+    password = st.text_input("🔒 Password", type="password", key="login_password")
+
 
     users = load_users()
     login_btn = st.button("Login")
