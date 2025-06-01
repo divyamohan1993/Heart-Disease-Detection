@@ -47,7 +47,7 @@ def signup_page():
     st.markdown('<div class="signup-box">', unsafe_allow_html=True)
 
     st.title("🩺 Sign Up")
-    username = st.text_input("👨‍⚕️ Username")
+    username = st.text_input("👨‍⚕️ Username").lower()
     name = st.text_input("📝 Full Name")
     password = st.text_input("🔒 Password", type="password")
     confirm_password = st.text_input("🔐 Confirm Password", type="password")
