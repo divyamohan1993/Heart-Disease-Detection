@@ -69,17 +69,17 @@ def save_submission_db(sub: dict):
 # initialize DB before anything else
 init_db()
 
-def save_submission(submission: dict):
-    # load existing
-    if os.path.exists(DATA_FILE):
-        with open(DATA_FILE, 'r') as f:
-            try: data = json.load(f)
-            except: data = []
-    else:
-        data = []
-    data.append(submission)
-    with open(DATA_FILE, 'w') as f:
-        json.dump(data, f, indent=2)
+# def save_submission(submission: dict):
+#     # load existing
+#     if os.path.exists(DATA_FILE):
+#         with open(DATA_FILE, 'r') as f:
+#             try: data = json.load(f)
+#             except: data = []
+#     else:
+#         data = []
+#     data.append(submission)
+#     with open(DATA_FILE, 'w') as f:
+#         json.dump(data, f, indent=2)
 
 def generate_pdf(submission: dict) -> BytesIO:
     """
@@ -276,7 +276,7 @@ elif selected == "Heart Disease Detection":
                 'ca': ca, 'thal': thal,
                 'diagnosis': diagnosis
             }
-            save_submission(submission)
+            save_submission_db(submission)
 
             # offer PDF download
             pdf_buf = generate_pdf(submission)
