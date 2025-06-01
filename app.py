@@ -8,6 +8,7 @@ import yaml
 import uuid
 import json
 from fpdf import FPDF
+from datetime import datetime
 from io import BytesIO
 import sqlite3
 ###
@@ -80,6 +81,16 @@ init_db()
 #     data.append(submission)
 #     with open(DATA_FILE, 'w') as f:
 #         json.dump(data, f, indent=2)
+
+def generate_patient_id():
+    today = datetime.now().strftime("%Y%m%d")  # e.g., '20250601'
+    conn = sqlite3.connect(DB_FILE)
+    cursor = conn.cursor()
+    cursor.execute("SELECT COUNT(*) FROM submissions WHERE id LIKE ?", (f"{today}%",))
+    count = cursor.fetchone()[0] + 1
+    conn.close()
+    return f"{today}_{count:03d}"  # e.g., '20250601_001'
+
 
 def generate_pdf(submission: dict) -> BytesIO:
     """
@@ -207,7 +218,8 @@ elif selected == "Heart Disease Detection":
         st.title('Heart Disease Detection using DL')
 
         # generate & show a patient ID
-        patient_id = str(uuid.uuid4())
+        # patient_id = str(uuid.uuid4())[1::4]
+        patient_id = generate_patient_id()
         st.markdown(f"**Patient ID:** `{patient_id}`")
 
         col1, col2, col3 = st.columns(3)
