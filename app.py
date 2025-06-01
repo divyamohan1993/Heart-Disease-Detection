@@ -176,8 +176,7 @@ def generate_pdf(submission: dict) -> BytesIO:
     pdf.set_y(-30)
     pdf.set_font("Helvetica", 'I', 9)
     pdf.set_text_color(100, 100, 100)
-    pdf.cell(0, 8, "This is a computer-generated report from HealthPlus Medical Center.", ln=True, align='C')
-    pdf.cell(0, 8, "For any critical interpretation, please consult a certified cardiologist.", ln=True, align='C')
+    pdf.cell(0, 8, "This is a computer-generated report from Shoolini Health Center. For any critical interpretation, please consult a certified cardiologist.", ln=True, align='C')
 
     # Output
     buf = BytesIO()
