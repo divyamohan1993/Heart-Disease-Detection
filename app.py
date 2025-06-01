@@ -92,26 +92,100 @@ def generate_patient_id():
     return f"{today}_{count:03d}"  # e.g., '20250601_001'
 
 
+# def generate_pdf(submission: dict) -> BytesIO:
+#     """
+#     Creates a one-page PDF with all submission fields.
+#     Returns a BytesIO buffer for Streamlit download.
+#     """
+#     pdf = FPDF(format='letter')
+#     pdf.add_page()
+#     pdf.set_font("Helvetica", size=12)
+#     y = 10
+
+#     for k, v in submission.items():
+#         pdf.cell(0, 8, f"{k}: {v}", ln=True)
+#         y += 8
+#         # (FPDF automatically flows to next line)
+
+#     buf = BytesIO()
+#     pdf.output(buf)
+#     buf.seek(0)
+#     return buf
+
 def generate_pdf(submission: dict) -> BytesIO:
     """
-    Creates a one-page PDF with all submission fields.
-    Returns a BytesIO buffer for Streamlit download.
+    Generates a hospital-style patient report PDF.
+    Returns a BytesIO object for download.
     """
     pdf = FPDF(format='letter')
     pdf.add_page()
-    pdf.set_font("Helvetica", size=12)
-    y = 10
 
-    for k, v in submission.items():
-        pdf.cell(0, 8, f"{k}: {v}", ln=True)
-        y += 8
-        # (FPDF automatically flows to next line)
+    # Hospital Header
+    pdf.set_font("Helvetica", 'B', 16)
+    pdf.set_text_color(30, 30, 120)
+    pdf.cell(0, 10, "🏥 Shoolini Health Center", ln=True, align='C')
+    pdf.set_font("Helvetica", '', 12)
+    pdf.set_text_color(0, 0, 0)
+    pdf.cell(0, 8, "Heart Disease Detection Unit", ln=True, align='C')
+    pdf.cell(0, 8, "Solan-Oachghat-Kumarhatti Highway, Bajhol, Himachal Pradesh 173229, India", ln=True, align='C')
+    pdf.cell(0, 8, "Phone: +917207314640 | Email: healthcenter@shooliniuniversity.com", ln=True, align='C')
+    pdf.ln(10)
 
+    # Report Title
+    pdf.set_font("Helvetica", 'B', 14)
+    pdf.set_text_color(0, 0, 0)
+    pdf.cell(0, 10, "📝 Patient Heart Disease Report", ln=True, align='L')
+    pdf.set_font("Helvetica", '', 12)
+    pdf.cell(0, 8, f"Date: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}", ln=True)
+    pdf.cell(0, 8, f"Patient ID: {submission['id']}", ln=True)
+    pdf.ln(8)
+
+    # Patient Info Section
+    pdf.set_font("Helvetica", 'B', 13)
+    pdf.cell(0, 10, "Patient Information", ln=True)
+    pdf.set_font("Helvetica", '', 12)
+
+    fields = [
+        ("Age", submission['age']),
+        ("Sex", submission['sex']),
+        ("Chest Pain Type", submission['cp']),
+        ("Resting Blood Pressure", submission['trestbps']),
+        ("Cholesterol", submission['chol']),
+        ("Fasting Blood Sugar", submission['fbs']),
+        ("Resting ECG", submission['restecg']),
+        ("Max Heart Rate", submission['thalach']),
+        ("Exercise Induced Angina", submission['exang']),
+        ("Oldpeak", submission['oldpeak']),
+        ("Slope", submission['slope']),
+        ("CA (vessels colored)", submission['ca']),
+        ("Thal", submission['thal']),
+    ]
+
+    for label, value in fields:
+        pdf.cell(0, 8, f"{label}: {value}", ln=True)
+
+    pdf.ln(8)
+
+    # Diagnosis Section
+    pdf.set_font("Helvetica", 'B', 13)
+    pdf.cell(0, 10, "Diagnosis", ln=True)
+    pdf.set_font("Helvetica", '', 12)
+    pdf.multi_cell(0, 8, submission['diagnosis'])
+
+    # Footer
+    pdf.set_y(-30)
+    pdf.set_font("Helvetica", 'I', 9)
+    pdf.set_text_color(100, 100, 100)
+    pdf.cell(0, 8, "This is a computer-generated report from HealthPlus Medical Center.", ln=True, align='C')
+    pdf.cell(0, 8, "For any critical interpretation, please consult a certified cardiologist.", ln=True, align='C')
+
+    # Output
     buf = BytesIO()
     pdf.output(buf)
     buf.seek(0)
     return buf
-###
+
+### dmj end
 
 
 # Load the saved models
