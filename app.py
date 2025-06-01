@@ -135,7 +135,7 @@ def generate_pdf(submission: dict) -> BytesIO:
     pdf.set_font("Helvetica", 'B', 14)
     pdf.set_text_color(0, 0, 0)
     pdf.cell(0, 10, "Patient Heart Disease Report", ln=True, align='L')
-    pdf.set_font("Helvetica", '', 12)
+    pdf.set_font("Helvetica", '', 10)
     pdf.cell(0, 8, f"Date: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}", ln=True)
     pdf.cell(0, 8, f"Patient ID: {submission['id']}", ln=True)
     pdf.ln(8)
@@ -143,7 +143,7 @@ def generate_pdf(submission: dict) -> BytesIO:
     # Patient Info Section
     pdf.set_font("Helvetica", 'B', 13)
     pdf.cell(0, 10, "Patient Information", ln=True)
-    pdf.set_font("Helvetica", '', 12)
+    pdf.set_font("Helvetica", '', 10)
 
     fields = [
         ("Age", submission['age']),
@@ -169,7 +169,7 @@ def generate_pdf(submission: dict) -> BytesIO:
     # Diagnosis Section
     pdf.set_font("Helvetica", 'B', 13)
     pdf.cell(0, 10, "Diagnosis", ln=True)
-    pdf.set_font("Helvetica", '', 12)
+    pdf.set_font("Helvetica", '', 10)
     pdf.multi_cell(0, 8, submission['diagnosis'])
 
     # Footer
