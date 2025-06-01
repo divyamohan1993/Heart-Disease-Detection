@@ -18,7 +18,7 @@ st.set_page_config(page_title="Health Assistant",
                    layout="wide",
                    page_icon="🧑‍⚕️")
 
-## dmj
+## Shk
 # DATA_FILE = 'submissions.json'
 
 DB_FILE = 'submissions.db'
@@ -184,7 +184,7 @@ def generate_pdf(submission: dict) -> BytesIO:
     buf.seek(0)
     return buf
 
-### dmj end
+### shk end
 
 
 # Load the saved models
