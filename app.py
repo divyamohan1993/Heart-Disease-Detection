@@ -2,13 +2,14 @@ import os
 import pickle
 import streamlit as st
 from streamlit_option_menu import option_menu
+
 import yaml
 
 ## dmj
 import uuid
 import json
 from fpdf import FPDF
-from datetime import datetime
+from datetime import datetime, timedelta
 from io import BytesIO
 import sqlite3
 ###
@@ -120,6 +121,9 @@ def generate_pdf(submission: dict) -> BytesIO:
     pdf = FPDF(format='letter')
     pdf.add_page()
 
+    now_utc = datetime.utcnow()
+    now_ist = now_utc + timedelta(hours=5, minutes=30)
+
     # Hospital Header
     pdf.set_font("Helvetica", 'B', 16)
     pdf.set_text_color(30, 30, 120)
@@ -136,7 +140,9 @@ def generate_pdf(submission: dict) -> BytesIO:
     pdf.set_text_color(0, 0, 0)
     pdf.cell(0, 10, "Patient Heart Disease Report", ln=True, align='L')
     pdf.set_font("Helvetica", '', 10)
-    pdf.cell(0, 8, f"Date: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}", ln=True)
+    # pdf.cell(0, 8, f"Date: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}", ln=True)
+
+    pdf.cell(0, 8, f"Date: {now_ist.strftime('%Y-%m-%d %H:%M:%S')} IST", ln=True)
     pdf.cell(0, 8, f"Patient ID: {submission['id']}", ln=True)
     pdf.ln(8)
 
