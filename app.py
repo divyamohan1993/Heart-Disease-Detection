@@ -213,43 +213,43 @@ elif selected == "Heart Disease Detection":
         col1, col2, col3 = st.columns(3)
 
         with col1:
-    age = st.text_input('Age', key='age')
+            age = st.text_input('Age', key='age')
 
-    with col2:
-        sex = st.text_input('Sex', key='sex')
+        with col2:
+            sex = st.text_input('Sex', key='sex')
 
-    with col3:
-        cp = st.text_input('Chest Pain types', key='cp')
+        with col3:
+            cp = st.text_input('Chest Pain types', key='cp')
 
-    with col1:
-        trestbps = st.text_input('Resting Blood Pressure', key='trestbps')
+        with col1:
+            trestbps = st.text_input('Resting Blood Pressure', key='trestbps')
 
-    with col2:
-        chol = st.text_input('Serum Cholestoral in mg/dl', key='chol')
+        with col2:
+            chol = st.text_input('Serum Cholestoral in mg/dl', key='chol')
 
-    with col3:
-        fbs = st.text_input('Fasting Blood Sugar > 120 mg/dl', key='fbs')
+        with col3:
+            fbs = st.text_input('Fasting Blood Sugar > 120 mg/dl', key='fbs')
 
-    with col1:
-        restecg = st.text_input('Resting Electrocardiographic results', key='restecg')
+        with col1:
+            restecg = st.text_input('Resting Electrocardiographic results', key='restecg')
 
-    with col2:
-        thalach = st.text_input('Maximum Heart Rate achieved', key='thalach')
+        with col2:
+            thalach = st.text_input('Maximum Heart Rate achieved', key='thalach')
 
-    with col3:
-        exang = st.text_input('Exercise Induced Angina', key='exang')
+        with col3:
+            exang = st.text_input('Exercise Induced Angina', key='exang')
 
-    with col1:
-        oldpeak = st.text_input('ST depression induced by exercise', key='oldpeak')
+        with col1:
+            oldpeak = st.text_input('ST depression induced by exercise', key='oldpeak')
 
-    with col2:
-        slope = st.text_input('Slope of the peak exercise ST segment', key='slope')
+        with col2:
+            slope = st.text_input('Slope of the peak exercise ST segment', key='slope')
 
-    with col3:
-        ca = st.text_input('Major vessels colored by flourosopy', key='ca')
+        with col3:
+            ca = st.text_input('Major vessels colored by flourosopy', key='ca')
 
-    with col1:
-        thal = st.text_input('thal: 0 = normal; 1 = fixed defect; 2 = reversible defect', key='thal')
+        with col1:
+            thal = st.text_input('thal: 0 = normal; 1 = fixed defect; 2 = reversible defect', key='thal')
 
 
         # Prediction logic
