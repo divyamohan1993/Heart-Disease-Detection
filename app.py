@@ -7,8 +7,9 @@ import yaml
 ## dmj
 import uuid
 import json
+from fpdf import FPDF
 from io import BytesIO
-from reportlab.pdfgen import canvas
+import sqlite3
 ###
 
 # Set page configuration
@@ -17,7 +18,56 @@ st.set_page_config(page_title="Health Assistant",
                    page_icon="🧑‍⚕️")
 
 ## dmj
-DATA_FILE = 'submissions.json'
+# DATA_FILE = 'submissions.json'
+
+DB_FILE = 'submissions.db'
+
+def init_db():
+    conn = sqlite3.connect(DB_FILE)
+    cursor = conn.cursor()
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS submissions (
+            id TEXT PRIMARY KEY,
+            age REAL,
+            sex REAL,
+            cp REAL,
+            trestbps REAL,
+            chol REAL,
+            fbs REAL,
+            restecg REAL,
+            thalach REAL,
+            exang REAL,
+            oldpeak REAL,
+            slope REAL,
+            ca REAL,
+            thal REAL,
+            diagnosis TEXT
+        )
+    """)
+    conn.commit()
+    conn.close()
+
+def save_submission_db(sub: dict):
+    conn = sqlite3.connect(DB_FILE)
+    cursor = conn.cursor()
+    cursor.execute("""
+        INSERT OR REPLACE INTO submissions (
+            id, age, sex, cp, trestbps, chol, fbs,
+            restecg, thalach, exang, oldpeak, slope, ca, thal, diagnosis
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    """, (
+        sub['id'],
+        float(sub['age']), float(sub['sex']), float(sub['cp']),
+        float(sub['trestbps']), float(sub['chol']), float(sub['fbs']),
+        float(sub['restecg']), float(sub['thalach']), float(sub['exang']),
+        float(sub['oldpeak']), float(sub['slope']), float(sub['ca']),
+        float(sub['thal']), sub['diagnosis']
+    ))
+    conn.commit()
+    conn.close()
+
+# initialize DB before anything else
+init_db()
 
 def save_submission(submission: dict):
     # load existing
@@ -32,18 +82,22 @@ def save_submission(submission: dict):
         json.dump(data, f, indent=2)
 
 def generate_pdf(submission: dict) -> BytesIO:
-    buf = BytesIO()
-    p = canvas.Canvas(buf)
-    p.setFont("Helvetica", 12)
-    y = 800
+    """
+    Creates a one-page PDF with all submission fields.
+    Returns a BytesIO buffer for Streamlit download.
+    """
+    pdf = FPDF(format='letter')
+    pdf.add_page()
+    pdf.set_font("Helvetica", size=12)
+    y = 10
+
     for k, v in submission.items():
-        p.drawString(50, y, f"{k}: {v}")
-        y -= 20
-        if y < 50:
-            p.showPage()
-            y = 800
-    p.showPage()
-    p.save()
+        pdf.cell(0, 8, f"{k}: {v}", ln=True)
+        y += 8
+        # (FPDF automatically flows to next line)
+
+    buf = BytesIO()
+    pdf.output(buf)
     buf.seek(0)
     return buf
 ###
@@ -159,43 +213,44 @@ elif selected == "Heart Disease Detection":
         col1, col2, col3 = st.columns(3)
 
         with col1:
-            age = st.text_input('Age')
+    age = st.text_input('Age', key='age')
 
-        with col2:
-            sex = st.text_input('Sex')
+    with col2:
+        sex = st.text_input('Sex', key='sex')
 
-        with col3:
-            cp = st.text_input('Chest Pain types')
+    with col3:
+        cp = st.text_input('Chest Pain types', key='cp')
 
-        with col1:
-            trestbps = st.text_input('Resting Blood Pressure')
+    with col1:
+        trestbps = st.text_input('Resting Blood Pressure', key='trestbps')
 
-        with col2:
-            chol = st.text_input('Serum Cholestoral in mg/dl')
+    with col2:
+        chol = st.text_input('Serum Cholestoral in mg/dl', key='chol')
 
-        with col3:
-            fbs = st.text_input('Fasting Blood Sugar > 120 mg/dl')
+    with col3:
+        fbs = st.text_input('Fasting Blood Sugar > 120 mg/dl', key='fbs')
 
-        with col1:
-            restecg = st.text_input('Resting Electrocardiographic results')
+    with col1:
+        restecg = st.text_input('Resting Electrocardiographic results', key='restecg')
 
-        with col2:
-            thalach = st.text_input('Maximum Heart Rate achieved')
+    with col2:
+        thalach = st.text_input('Maximum Heart Rate achieved', key='thalach')
 
-        with col3:
-            exang = st.text_input('Exercise Induced Angina')
+    with col3:
+        exang = st.text_input('Exercise Induced Angina', key='exang')
 
-        with col1:
-            oldpeak = st.text_input('ST depression induced by exercise')
+    with col1:
+        oldpeak = st.text_input('ST depression induced by exercise', key='oldpeak')
 
-        with col2:
-            slope = st.text_input('Slope of the peak exercise ST segment')
+    with col2:
+        slope = st.text_input('Slope of the peak exercise ST segment', key='slope')
 
-        with col3:
-            ca = st.text_input('Major vessels colored by flourosopy')
+    with col3:
+        ca = st.text_input('Major vessels colored by flourosopy', key='ca')
 
-        with col1:
-            thal = st.text_input('thal: 0 = normal; 1 = fixed defect; 2 = reversible defect')
+    with col1:
+        thal = st.text_input('thal: 0 = normal; 1 = fixed defect; 2 = reversible defect', key='thal')
+
 
         # Prediction logic
         heart_diagnosis = ''
