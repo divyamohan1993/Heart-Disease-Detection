@@ -123,7 +123,7 @@ def generate_pdf(submission: dict) -> BytesIO:
     # Hospital Header
     pdf.set_font("Helvetica", 'B', 16)
     pdf.set_text_color(30, 30, 120)
-    pdf.cell(0, 10, "🏥 Shoolini Health Center", ln=True, align='C')
+    pdf.cell(0, 10, "Shoolini Health Center", ln=True, align='C')
     pdf.set_font("Helvetica", '', 12)
     pdf.set_text_color(0, 0, 0)
     pdf.cell(0, 8, "Heart Disease Detection Unit", ln=True, align='C')
@@ -134,7 +134,7 @@ def generate_pdf(submission: dict) -> BytesIO:
     # Report Title
     pdf.set_font("Helvetica", 'B', 14)
     pdf.set_text_color(0, 0, 0)
-    pdf.cell(0, 10, "📝 Patient Heart Disease Report", ln=True, align='L')
+    pdf.cell(0, 10, "Patient Heart Disease Report", ln=True, align='L')
     pdf.set_font("Helvetica", '', 12)
     pdf.cell(0, 8, f"Date: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}", ln=True)
     pdf.cell(0, 8, f"Patient ID: {submission['id']}", ln=True)
