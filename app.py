@@ -183,9 +183,10 @@ with st.sidebar:
             'Forgot Password',
             'Heart Disease Detection',
             'Bulk Reports',          # new 5th item
+            'View Database'
         ],
         menu_icon='hospital-fill',
-        icons=['key', 'person-add', 'key', 'heart', 'cloud-download'],
+        icons=['key', 'person-add', 'key', 'heart', 'cloud-download', 'database'],
         default_index=0
     )
 
@@ -372,5 +373,43 @@ elif selected == "Bulk Reports":
         else:
             st.info("ℹ️ Please upload a CSV to begin.")
 
+elif selected == "View Database":
+    if not st.session_state.get('logged_in', False):
+        st.warning("Please log in first to view the database.")
+    else:
+        st.title("View & Download SQLite Database")
+
+        # 1) Display all submissions
+        conn = sqlite3.connect(DB_FILE)
+        submissions_df = pd.read_sql_query("SELECT * FROM submissions", conn)
+        st.subheader("All Heart‐Disease Submissions")
+        st.dataframe(submissions_df)
+
+        st.markdown("---")
+
+        # 2) Optionally, display all registered users
+        users_df = pd.read_sql_query("SELECT username, name FROM users", conn)
+        st.subheader("Registered Users")
+        st.dataframe(users_df)
+
+        conn.close()
+
+        st.markdown("---")
+
+        # 3) Download the raw SQLite file
+        with open(DB_FILE, "rb") as f:
+            db_bytes = f.read()
+        st.download_button(
+            label="Download Raw SQLite File",
+            data=db_bytes,
+            file_name="submissions.db",
+            mime="application/x-sqlite3"
+        )
+
 else:
     st.info("Select a menu item from the sidebar.")
+
+
+
+
+
