@@ -182,8 +182,8 @@ with st.sidebar:
             'Signup',
             'Forgot Password',
             'Heart Disease Detection',
-            'Bulk Reports',          # new 5th item
-            'View Database'
+            'Bulk Reports',
+            'View Database',
         ],
         menu_icon='hospital-fill',
         icons=['key', 'person-add', 'key', 'heart', 'cloud-download', 'database'],
