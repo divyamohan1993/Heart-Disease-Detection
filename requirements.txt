@@ -6,4 +6,5 @@ scikit-learn==1.6.1
 streamlit-authenticator==0.2.2
 PyYAML==6.0.1     # Required for loading the config.yaml
 bcrypt==4.1.2     # Required for password hashing
-fpdf2==2.6.0 ## dmj
+fpdf2==2.6.0      # dmj
+pandas==2.2.3
