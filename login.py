@@ -78,7 +78,7 @@ import sqlite3
 DB_FILE = 'submissions.db'
 
 def load_user(username: str):
-    """Return (username, name, password_hash) or None if not found."""
+    """Return (username, name, password_hash) or None."""
     conn = sqlite3.connect(DB_FILE)
     cursor = conn.cursor()
     cursor.execute("SELECT username, name, password FROM users WHERE username = ?", (username,))
@@ -127,8 +127,7 @@ def login_page():
                     st.session_state.username = username
                     st.session_state.full_name = name
                     st.success(f"Welcome Dr. {name} 👋")
-                    # Force a rerun so the app sees logged_in=True immediately:
-                    st.experimental_rerun()
+                    # NO MORE st.experimental_rerun() here
                 else:
                     st.error("❌ Incorrect password.")
 
@@ -141,5 +140,4 @@ if "logged_in" not in st.session_state:
 if not st.session_state.logged_in:
     login_page()
 else:
-    st.success("✅ You are already logged in. Automatically taking you to the dashboard...") 
-    # We will handle redirect in app.py below.
+    st.success("✅ You are already logged in. Redirecting you to Heart Disease Detection…")
