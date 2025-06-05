@@ -138,5 +138,7 @@ def signup_page():
 
     st.markdown('</div>', unsafe_allow_html=True)
 
-# Always call signup_page(), because app.py will import it conditionally
-signup_page()
+# When executed directly (``python signup.py``) show the sign-up form. Avoid
+# running on import so ``app.py`` can control when the UI is rendered.
+if __name__ == "__main__":
+    signup_page()

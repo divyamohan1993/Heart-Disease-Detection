@@ -130,5 +130,7 @@ def forgot_password_page():
 
     st.markdown('</div>', unsafe_allow_html=True)
 
-# Always call the page (app.py will import it conditionally)
-forgot_password_page()
+# Only show the page when executing this file directly. This prevents the
+# UI from rendering twice when the module is imported by ``app.py``.
+if __name__ == "__main__":
+    forgot_password_page()

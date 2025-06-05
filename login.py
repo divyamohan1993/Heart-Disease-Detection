@@ -134,12 +134,16 @@ def login_page():
 
     st.markdown('</div>', unsafe_allow_html=True)
 
-# Boilerplate: if not logged_in, show login form; else show a message.
-if "logged_in" not in st.session_state:
-    st.session_state.logged_in = False
+# Boilerplate: when run directly, show the login form. This prevents the page
+# from rendering twice when imported from ``app.py``.
+if __name__ == "__main__":
+    if "logged_in" not in st.session_state:
+        st.session_state.logged_in = False
 
-if not st.session_state.logged_in:
-    login_page()
-else:
-    st.success("✅ You are already logged in. Automatically taking you to the dashboard...") 
-    # We will handle redirect in app.py below.
+    if not st.session_state.logged_in:
+        login_page()
+    else:
+        st.success(
+            "✅ You are already logged in. Automatically taking you to the dashboard..."
+        )
+        # We will handle redirect in app.py below.
